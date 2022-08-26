@@ -1,6 +1,8 @@
 package uk.co.coralsoftware.invoicetrack.controllers;
 
+import ch.qos.logback.classic.helpers.MDCInsertingServletFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +15,11 @@ import uk.co.coralsoftware.invoicetrack.classes.CompanyInformation;
 import uk.co.coralsoftware.invoicetrack.classes.Invoice;
 import uk.co.coralsoftware.invoicetrack.services.CompanyInformationService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
+@CrossOrigin("*")
 public class InvoiceController {
 
     private InvoiceService invoiceService;
@@ -26,11 +32,12 @@ public class InvoiceController {
     }
 
     @PostMapping("/invoices")
-    public void  save( InvoiceRequest invoiceRequest){
+    public void  save(@RequestBody InvoiceRequest invoiceRequest){
        Invoice invoice = new Invoice();
        CompanyInformation companyInformation = companyInformationService.findById(invoiceRequest.getClientId());
        invoice.setDate(invoiceRequest.getDate());
        invoice.setClient(companyInformation);
+      
        for(LineItemRequest lineItemRequest: invoiceRequest.getLineItems()){
            LineItem lineItem = new LineItem();
            lineItem.setInvoice(invoice);
@@ -41,7 +48,8 @@ public class InvoiceController {
            invoice.getLineItems().add(lineItem);
        }
 
-       invoiceService.save(invoice);
+        invoiceService.save(invoice);        
+      
     }
 
 }

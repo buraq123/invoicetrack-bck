@@ -22,7 +22,7 @@ public class Invoice {
     @JoinColumn(name = "client", referencedColumnName = "id")
     private CompanyInformation client;
 
-    @OneToMany(mappedBy = "invoice")
+    @OneToMany(mappedBy = "invoice",cascade = CascadeType.PERSIST)
     private List<LineItem> lineItems = new ArrayList<>();
 
     public CompanyInformation getClient() {

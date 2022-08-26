@@ -16,7 +16,7 @@ public class LineItem {
 
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "invoiceid", referencedColumnName = "id")
     private Invoice invoice;
 
@@ -67,4 +67,7 @@ public class LineItem {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
+
+
+   
 }

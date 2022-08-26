@@ -1,5 +1,7 @@
 package uk.co.coralsoftware.invoicetrack.classes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +13,7 @@ public class Tenant {
     private int id;
     private String name;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "tenant")
     private Set<CompanyInformation> clients  = new HashSet<>();
 
